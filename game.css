@@ -1,0 +1,163 @@
+.game-container {
+  padding: 20px;
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+.game-header h2 {
+  color: #8d7eff;
+  margin: 0;
+}
+
+.game-selector {
+  flex-grow: 1;
+  margin: 0 20px;
+}
+
+.game-select {
+  padding: 8px 15px;
+  border-radius: 5px;
+  border: 1px solid #8d7eff;
+  background-color: white;
+  color: #333;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.game-controls {
+  display: flex;
+  gap: 10px;
+}
+
+.control-btn {
+  padding: 8px 15px;
+  background-color: #8d7eff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.control-btn:hover {
+  background-color: #7a6bff;
+  transform: translateY(-2px);
+}
+
+.control-btn:active {
+  transform: translateY(0);
+}
+
+.timer-display {
+  text-align: center;
+  font-size: 3rem;
+  font-family: 'Courier New', monospace;
+  color: #333;
+  margin: 20px 0;
+  padding: 15px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.timer-display span {
+  padding: 0 5px;
+}
+
+.game-area {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  min-height: 300px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+#unity-container {
+  width: 1080px;
+  height: 600px;
+  margin: 0 auto;
+}
+
+#unity-canvas {
+  width: 100%;
+  height: 100%;
+  background: #231F20;
+}
+
+#unity-loading-bar {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: none;
+}
+
+.game-stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.stat-card {
+  background-color: #fff;
+  border-radius: 8px;
+  padding: 15px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.stat-card h3 {
+  margin-top: 0;
+  color: #8d7eff;
+  font-size: 1.1rem;
+}
+
+.stat-card p {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: #333;
+  margin: 10px 0 0;
+}
+
+@media (max-width: 768px) {
+  .game-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+
+  .game-selector {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .timer-display {
+    font-size: 2rem;
+  }
+
+  .game-stats {
+    grid-template-columns: 1fr;
+  }
+
+  #unity-container {
+    width: 100%;
+    height: 400px;
+  }
+}

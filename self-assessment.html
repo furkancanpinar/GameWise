@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameWise - Self Assessment</title>
+  <link rel="stylesheet" href="MainPage.css">
+  <link rel="stylesheet" href="selfassesment.css">
+  <link rel="stylesheet" href="results.css">
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text" id="pageTitle">SELF ASSESSMENT</span>
+    </div>
+
+    <form action="#" method="GET" class="search-form" onsubmit="return false;">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." autocomplete="off" />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+
+    <div class="search-results" id="searchResults"></div>
+
+    <div class="header-right">
+      <div class="welcome-message" id="welcomeMessage"></div>
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+
+    <div class="content">
+      <div class="assessment-container">
+        <section class="game-section">
+          <h2 class="section-title">
+            <img src="Editables/game.png" class="section-icon">
+            My Game Library
+          </h2>
+
+          <div class="popular-games">
+            <div class="game-card" data-game="rubiks-cube">
+              <img src="Editables/cubecinematic.png" alt="3x3 Rubiks Cube">
+              <div class="game-info">
+                <h3>3x3 Rubiks Cube</h3>
+                <button class="add-game-btn">Track Game</button>
+              </div>
+            </div>
+
+            <div class="game-card" data-game="pong">
+              <img src="Editables/cinematicpong.png" alt="Pong game">
+              <div class="game-info">
+                <h3>Pong game</h3>
+                <button class="add-game-btn">Track Game</button>
+              </div>
+            </div>
+
+            <div class="game-card" data-game="flagguess">
+              <img src="Editables/cinematicflag.png" alt="Flag guessing game">
+              <div class="game-info">
+                <h3>Flag guessing game</h3>
+                <button class="add-game-btn">Track Game</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="tracked-games">
+            <h3>Currently Tracking</h3>
+            <div class="tracked-list" id="trackedGames">
+              <p class="empty-message">No games being tracked yet</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="questionnaire-section">
+          <h2 class="section-title">
+            <img src="Editables/selfassesment.png" class="section-icon">
+            Gaming Habits Assessment
+          </h2>
+
+          <div class="questionnaire-container">
+            <form id="assessmentForm">
+              <div class="question">
+                <p>1. How often do you play longer than intended?</p>
+                <div class="options">
+                  <label><input type="radio" name="q1" value="4" required> Very often</label>
+                  <label><input type="radio" name="q1" value="3"> Often</label>
+                  <label><input type="radio" name="q1" value="2"> Sometimes</label>
+                  <label><input type="radio" name="q1" value="1"> Rarely</label>
+                  <label><input type="radio" name="q1" value="0"> Never</label>
+                </div>
+              </div>
+
+              <div class="question">
+                <p>2. Do you neglect responsibilities to play games?</p>
+                <div class="options">
+                  <label><input type="radio" name="q2" value="4" required> Very often</label>
+                  <label><input type="radio" name="q2" value="3"> Often</label>
+                  <label><input type="radio" name="q2" value="2"> Sometimes</label>
+                  <label><input type="radio" name="q2" value="1"> Rarely</label>
+                  <label><input type="radio" name="q2" value="0"> Never</label>
+                </div>
+              </div>
+
+              <div class="question">
+                <p>3. Do you feel irritable when you can't play?</p>
+                <div class="options">
+                  <label><input type="radio" name="q3" value="4" required> Very often</label>
+                  <label><input type="radio" name="q3" value="3"> Often</label>
+                  <label><input type="radio" name="q3" value="2"> Sometimes</label>
+                  <label><input type="radio" name="q3" value="1"> Rarely</label>
+                  <label><input type="radio" name="q3" value="0"> Never</label>
+                </div>
+              </div>
+
+              <div class="question">
+                <p>4. Do you use gaming to escape problems?</p>
+                <div class="options">
+                  <label><input type="radio" name="q4" value="4" required> Very often</label>
+                  <label><input type="radio" name="q4" value="3"> Often</label>
+                  <label><input type="radio" name="q4" value="2"> Sometimes</label>
+                  <label><input type="radio" name="q4" value="1"> Rarely</label>
+                  <label><input type="radio" name="q4" value="0"> Never</label>
+                </div>
+              </div>
+
+              <button type="submit" class="submit-btn">Get Assessment</button>
+            </form>
+
+            <div class="assessment-results" id="assessmentResults">
+              <h3>Latest Assessment Summary</h3>
+              <div class="result-item">
+                <p>1. Play longer than intended:</p>
+                <span id="resultQ1" class="result-status"></span>
+              </div>
+              <div class="result-item">
+                <p>2. Neglect responsibilities:</p>
+                <span id="resultQ2" class="result-status"></span>
+              </div>
+              <div class="result-item">
+                <p>3. Irritable when can't play:</p>
+                <span id="resultQ3" class="result-status"></span>
+              </div>
+              <div class="result-item">
+                <p>4. Use gaming to escape:</p>
+                <span id="resultQ4" class="result-status"></span>
+              </div>
+              <div class="addiction-level">
+                <h4>Your Estimated Gaming Habit Level: <span id="addictionLevel"></span></h4>
+              </div>
+              <button id="retakeAssessmentBtn">Retake Assessment</button>
+            </div>
+
+
+            <div class="results" id="results">
+              <section class="analytics-section">
+                <h2 class="section-title">
+                  <img src="Editables/analytics.png" class="section-icon">
+                  Game Analytics
+                </h2>
+                <div class="chart-container">
+                  <canvas id="gamesChart"></canvas>
+                </div>
+              </section>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script src="firebase-init.js"></script>
+  <script src="MainPage.js"></script>
+  <script src="self-assessment.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>

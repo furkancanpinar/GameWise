@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>GameWise - Profile</title>
+  <link rel="stylesheet" href="MainPage.css" />
+  <link rel="stylesheet" href="profile.css" />
+  <link rel="stylesheet" href="results.css" />
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+</head>
+<body>
+
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text" id="pageTitle">PROFILE</span>
+    </div>
+
+    <form action="#" method="GET" class="search-form" onsubmit="return false;">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." autocomplete="off" />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+
+    <div class="search-results" id="searchResults"></div>
+
+    <div class="header-right">
+      <div class="welcome-message" id="welcomeMessage"></div>
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+          <a href="#">Logout</a> </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+
+    <div class="content">
+      <div class="profile-container">
+        <div class="profile-header">
+          <div class="profile-avatar">
+            <img src="Editables/user.png" alt="User Avatar" id="userAvatar">
+            <button class="edit-avatar-btn">Edit Avatar</button>
+          </div>
+          <div class="profile-info">
+            <h1 id="userDisplayName">Player Name</h1>
+            <p id="userEmail">player@gamewise.com</p>
+            <div class="profile-stats">
+              <div class="stat-item">
+                <span class="stat-value" id="gamesPlayed">24</span>
+                <span class="stat-label">Games Played</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="hoursPlayed">156</span>
+                <span class="stat-label">Hours Played</span>
+              </div>
+              <div class="stat-item">
+                <span class="stat-value" id="achievements">18</span>
+                <span class="stat-label">Achievements</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="profile-sections">
+          <div class="profile-section">
+            <h2 class="section-title">Account Information</h2>
+            <div class="info-grid">
+              <div class="info-item">
+                <label>Display Name</label>
+                <div class="editable-field">
+                  <p id="displayNameField">Loading...</p>
+                  <input type="text" id="displayNameInput" class="edit-input" style="display: none;">
+                  <button class="edit-btn" data-field="displayName">Edit</button>
+                  <button class="save-btn" data-field="displayName" style="display: none;">Save</button>
+                </div>
+              </div>
+              <div class="info-item">
+                <label>Email Address</label>
+                <div class="editable-field">
+                  <p id="emailField">Loading...</p>
+                  <input type="email" id="emailInput" class="edit-input" style="display: none;">
+                  <button class="edit-btn" data-field="email">Edit</button>
+                  <button class="save-btn" data-field="email" style="display: none;">Save</button>
+                </div>
+              </div>
+              <div class="info-item">
+                <label>Password</label>
+                <div class="editable-field">
+                  <div class="password-container">
+                    <p id="passwordField">••••••••</p>
+                    <button class="toggle-password" id="togglePassword">Show</button>
+                  </div>
+                  <input type="password" id="passwordInput" class="edit-input" style="display: none;">
+                  <button class="edit-btn" data-field="password">Change</button>
+                  <button class="save-btn" data-field="password" style="display: none;">Save</button>
+                </div>
+                <small class="security-note">Note: Password changes will require 2FA verification in future updates</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h2 class="section-title">Recent Activity</h2>
+            <div class="activity-list">
+              <div class="activity-item">
+                <img src="Editables/game.png" alt="Game Icon" class="activity-icon">
+                <div class="activity-details">
+                  <p>Completed <strong>Space Adventure</strong></p>
+                  <small>2 hours ago</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <img src="Editables/ai.png" alt="AI Icon" class="activity-icon">
+                <div class="activity-details">
+                  <p>Used GameWAi for strategy tips</p>
+                  <small>Yesterday</small>
+                </div>
+              </div>
+              <div class="activity-item">
+                <img src="Editables/clock.png" alt="Clock Icon" class="activity-icon">
+                <div class="activity-details">
+                  <p>Played for <strong>3 hours</strong> total today</p>
+                  <small>Yesterday</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="profile-section">
+            <h2 class="section-title">Achievements</h2>
+            <div class="achievements-grid">
+              <div class="achievement-item">
+                <img src="Editables/trophy.png" alt="Achievement" class="achievement-icon">
+                <p>First Game Completed</p>
+              </div>
+              <div class="achievement-item">
+                <img src="Editables/trophy.png" alt="Achievement" class="achievement-icon">
+                <p>5 Hours Played</p>
+              </div>
+              <div class="achievement-item">
+                <img src="Editables/trophy.png" alt="Achievement" class="achievement-icon">
+                <p>Strategy Master</p>
+              </div>
+              <div class="achievement-item">
+                <img src="Editables/trophy.png" alt="Achievement" class="achievement-icon">
+                <p>Quick Learner</p>
+              </div>
+            </div>
+            <button class="view-all-btn">View All Achievements</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script src="firebase-init.js"></script>
+  <script src="MainPage.js"></script>
+  <script src="profile.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>

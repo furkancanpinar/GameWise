@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameWise - Play</title>
+  <link rel="stylesheet" href="MainPage.css" />
+  <link rel="stylesheet" href="game.css" />
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text" id="pageTitle">GAME</span>
+    </div>
+
+    <form action="#" method="GET" class="search-form">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+
+    <div class="header-right">
+      <div class="welcome-message" id="welcomeMessage"></div>
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu"></div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+
+    <div class="content">
+      <div class="game-container">
+        <div class="game-header">
+          <h2>Game Zone</h2>
+          <div class="game-selector">
+            <select id="gameSelect" class="game-select">
+              <option value="cube">3x3 Cube</option>
+              <option value="pong">Pong</option>
+              <option value="flagguess">Flag Guessing Game</option>
+            </select>
+          </div>
+          <div class="game-controls">
+            <button id="startTimer" class="control-btn">Start Timer</button>
+            <button id="pauseTimer" class="control-btn">Stop Timer</button>
+            <button id="resetTimer" class="control-btn">Reset Timer</button>
+          </div>
+        </div>
+
+        <div class="timer-display">
+          <span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span>
+        </div>
+
+        <div class="game-area">
+          <div id="unity-container">
+            <canvas id="unity-canvas"></canvas>
+            <div id="unity-loading-bar">
+              <div id="unity-progress-bar-empty"></div>
+              <div id="unity-progress-bar-full"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-stats">
+          <div class="stat-card">
+            <h3>Today's Playtime</h3>
+            <p id="todayTime">00:00:00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Total Playtime</h3>
+            <p id="totalTime">00:00:00</p>
+          </div>
+          <div class="stat-card">
+            <h3>Last Session</h3>
+            <p id="lastSession">00:00:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="firebaseService.js"></script>
+  <script src="MainPage.js"></script> 
+  <script src="game.js"></script> 
+  <script src="unity-loader.js"></script>
+</body>
+</html>

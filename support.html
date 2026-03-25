@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GameWise - Support</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="support.css">
+  <link rel="stylesheet" href="MainPage.css">
+  <link rel="stylesheet" href="results.css">
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text" id="pageTitle">SUPPORT</span>
+    </div>
+
+    <form action="#" method="GET" class="search-form" onsubmit="return false;">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." autocomplete="off" />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+
+    <div class="search-results" id="searchResults"></div>
+
+    <div class="header-right">
+      <div class="welcome-message" id="welcomeMessage"></div>
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+
+    <div class="content">
+      <div class="support-container">
+        <h1 class="support-title">GameWise Support Center</h1>
+
+        <div class="support-grid">
+          <div class="support-card contact-info">
+            <h2><i class="fas fa-envelope"></i> Contact Us</h2>
+            <div class="contact-method">
+              <i class="fas fa-envelope"></i>
+              <div>
+                <h3>Email Support</h3>
+                <p>furkancanpinar0@gmail.com</p>
+                <p>Typically responds within 24 hours</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="chat-container" id="chatContainer">
+    <div class="chat-header">
+      <h3>Live Support</h3>
+      <button class="chat-toggle" id="chatToggle">
+        <i class="fas fa-times"></i>
+      </button>
+    </div>
+    <div class="chat-messages" id="chatMessages">
+      <div class="chat-message bot">
+        <div class="message-content">
+          Hello! How can we help you today?
+        </div>
+        <div class="message-time">Just now</div>
+      </div>
+    </div>
+    <div class="chat-input">
+      <input type="text" id="chatInput" placeholder="Type your message...">
+      <button id="sendMessage"><i class="fas fa-paper-plane"></i></button>
+    </div>
+  </div>
+
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
+
+  <script src="firebase-init.js"></script>
+  <script src="MainPage.js"></script>
+  <script src="support.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>

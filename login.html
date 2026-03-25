@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameWise - Login</title>
+  <link rel="stylesheet" href="MainPage.css" />
+  <link rel="stylesheet" href="login.css" />
+  <link rel="stylesheet" href="results.css" />
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+</head>
+
+<body>
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text">LOGIN</span>
+    </div>
+    <form action="#" method="GET" class="search-form" onsubmit="return false;">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." autocomplete="off" />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+    <div class="search-results" id="searchResults"></div>
+    <div class="header-right">
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+
+    <div class="content">
+      <div class="login-container">
+        <h2 class="login-title">Welcome Back!</h2>
+        <p class="login-subtitle">Please enter your login details</p>
+        <form class="login-form">
+          <div class="form-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+          </div>
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+          </div>
+          <div class="remember-me">
+            <input type="checkbox" id="remember">
+            <label for="remember">Remember me</label>
+          </div>
+          <button type="submit" class="login-button">Login</button>
+          <div class="login-links">
+            <a href="#" class="forgot-password">Forgot password?</a>
+            <span>Don't have an account? <a href="signup.html" class="sign-up">Sign up</a></span>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="login.js"></script>
+  <script src="MainPage.js"></script>
+  <script src="search.js"></script>
+</body>
+
+</html>

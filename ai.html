@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GameWise - WAI</title>
+  <link rel="stylesheet" href="Wai.css" />
+  <link rel="stylesheet" href="results.css" />
+  <link rel="icon" type="image/png" href="Editables/alien.png" class="filter">
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="Editables/alien.png" alt="Logo" class="logo-icon" id="logoIcon">
+      <span class="logo-text" id="pageTitle">W-AI</span>
+    </div>
+    <form action="#" method="GET" class="search-form" onsubmit="return false;">
+      <div class="search-container">
+        <input type="text" id="search-bar" placeholder="Search..." autocomplete="off" />
+        <button type="submit" class="search-button">
+          <img src="Editables/search.png" alt="Search Icon" class="search-icon" />
+        </button>
+      </div>
+    </form>
+    <div class="search-results" id="searchResults"></div>
+    <div class="header-right">
+      <div class="welcome-message" id="welcomeMessage"></div>
+      <div class="user-menu" id="userMenu">
+        <img src="Editables/user.png" alt="User" class="user-icon" id="userIcon">
+        <div class="dropdown" id="dropdownMenu">
+          <a href="login.html">Login</a>
+          <a href="signup.html">Sign Up</a>
+        </div>
+      </div>
+    </div>
+  </header>
+  <div class="container">
+    <div class="sidebar">
+      <div class="menu-header">
+        <h2 class="menu-title">Menu</h2>
+        <div class="toggle-btn" id="toggleSidebar">
+          <img src="Editables/collapse.png" alt="Toggle Sidebar" id="toggle-icon">
+        </div>
+      </div>
+      <div class="nav-item"><a href="index.html"><img src="Editables/Home.png" alt="Home" class="nav-icon"><span>Home</span></a></div>
+      <div class="nav-item"><a href="game.html"><img src="Editables/game.png" alt="Game" class="nav-icon"><span>Game</span></a></div>
+      <div class="nav-item"><a href="ideas.html"><img src="Editables/lamp.png" alt="Ideas" class="nav-icon"><span>Ideas</span></a></div>
+      <div class="nav-item"><a href="self-assessment.html"><img src="Editables/selfassesment.png" alt="Self Assessment" class="nav-icon"><span>Self Assessment</span></a></div>
+      <div class="nav-item"><a href="clock.html"><img src="Editables/clock.png" alt="Clock" class="nav-icon"><span>Time Spent</span></a></div>
+      <div class="nav-item"><a href="ai.html"><img src="Editables/ai.png" alt="AI" class="nav-icon"><span>GameWAi</span></a></div>
+      <div class="nav-item"><a href="support.html"><img src="Editables/support.png" alt="Support" class="nav-icon"><span>Support</span></a></div>
+      <div class="nav-item"><a href="settings.html"><img src="Editables/gear.png" alt="Settings" class="nav-icon"><span>Settings</span></a></div>
+    </div>
+    <div class="content">
+      <div class="ai-container">
+        <div class="ai-layout">
+          <div class="ai-chat-container">
+            <div class="chat-messages" id="chat-messages"></div>
+            <div class="chat-input-container">
+              <input type="text" id="user-input" placeholder="Type your message here..." class="chat-input">
+              <button id="send-button" class="send-button">
+                <img src="Editables/send.png" alt="Send" class="send-icon">
+              </button>
+            </div>
+          </div>
+          <div class="ai-features">
+            <h3 class="quick-questions-title">Quick Questions</h3>
+            <div class="feature-grid">
+              <div class="feature-card" onclick="suggestPrompt('How can I balance gaming and studying?')">
+                <div class="feature-icon">
+                  <img src="Editables/study.png" alt="Health">
+                </div>
+                <div class="feature-content">
+                  <h4>Study Balance</h4>
+                  <p>Tips for managing gaming and academics</p>
+                </div>
+              </div>
+              <div class="feature-card" onclick="suggestPrompt('What are some good gaming time management techniques?')">
+                <div class="feature-icon">
+                  <img src="Editables/clock.png" alt="Time">
+                </div>
+                <div class="feature-content">
+                  <h4>Time Management</h4>
+                  <p>Smart ways to control play time</p>
+                </div>
+              </div>
+              <div class="feature-card" onclick="suggestPrompt('Can you suggest some healthy gaming habits?')">
+                <div class="feature-icon">
+                  <img src="Editables/game.png" alt="Games">
+                </div>
+                <div class="feature-content">
+                  <h4>Healthy Habits</h4>
+                  <p>Maintain wellness while gaming</p>
+                </div>
+              </div>
+              <div class="feature-card" onclick="suggestPrompt('How can I recognize gaming addiction symptoms?')">
+                <div class="feature-icon">
+                  <img src="Editables/addiction.png" alt="Warning">
+                </div>
+                <div class="feature-content">
+                  <h4>Addiction Signs</h4>
+                  <p>Identify potential gaming addiction</p>
+                </div>
+              </div>
+              <div class="feature-card" onclick="suggestPrompt('What are some good alternatives to gaming?')">
+                <div class="feature-icon">
+                  <img src="Editables/alternative.png" alt="Alternatives">
+                </div>
+                <div class="feature-content">
+                  <h4>Alternatives</h4>
+                  <p>Discover other rewarding activities</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+  <script src="firebase-init.js"></script>
+  <script src="MainPage.js"></script>
+  <script src="ai.js"></script>
+  <script src="search.js"></script>
+</body>
+</html>
