@@ -1,10 +1,51 @@
 document.addEventListener('DOMContentLoaded', function() {
+  const dropdown = document.getElementById('dropdownMenu');
+  const welcomeMessage = document.getElementById('welcomeMessage');
+
   firebase.auth().onAuthStateChanged(function(user) {
+    dropdown.innerHTML = '';
+    
     if (user) {
+      welcomeMessage.textContent = `Welcome, ${user.displayName || 'Gamer'}`;
+      welcomeMessage.style.display = 'block';
+
+      const profileLink = document.createElement('a');
+      profileLink.href = 'profile.html';
+      profileLink.textContent = 'Profile';
+
+      const logoutLink = document.createElement('a');
+      logoutLink.href = '#';
+      logoutLink.textContent = 'Logout';
+      logoutLink.addEventListener('click', function(e) {
+        e.preventDefault();
+        firebase.auth().signOut().then(() => {
+          localStorage.clear();
+          window.location.href = 'login.html';
+        }).catch((error) => {
+          alert('Logout failed. Please try again.');
+        });
+      });
+
+      dropdown.appendChild(profileLink);
+      dropdown.appendChild(logoutLink);
+
       updateProfileInfo(user);
       loadUserData(user.uid);
       setupEventListeners(user);
     } else {
+      welcomeMessage.style.display = 'none';
+      
+      const loginLink = document.createElement('a');
+      loginLink.href = 'login.html';
+      loginLink.textContent = 'Login';
+
+      const signupLink = document.createElement('a');
+      signupLink.href = 'signup.html';
+      signupLink.textContent = 'Sign Up';
+
+      dropdown.appendChild(loginLink);
+      dropdown.appendChild(signupLink);
+      
       window.location.href = 'login.html';
     }
   });

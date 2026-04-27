@@ -2,6 +2,69 @@ if (typeof firebaseService === 'undefined') {
     // Consider a more robust error handling mechanism here if firebaseService is critical
 }
 
+// Setup dropdown menu based on authentication state
+const dropdown = document.getElementById('dropdownMenu');
+const welcomeMessage = document.getElementById('welcomeMessage');
+
+if (typeof firebaseService !== 'undefined' && firebaseService.initAuthStateListener) {
+    firebaseService.initAuthStateListener((user) => {
+        dropdown.innerHTML = '';
+        if (user) {
+            welcomeMessage.textContent = `Welcome, ${user.displayName || 'Gamer'}`;
+            welcomeMessage.style.display = 'block';
+
+            const profileLink = document.createElement("a");
+            profileLink.href = "profile.html";
+            profileLink.textContent = "Profile";
+
+            const logoutLink = document.createElement("a");
+            logoutLink.href = "#";
+            logoutLink.textContent = "Logout";
+            logoutLink.addEventListener("click", function(e) {
+                e.preventDefault();
+                firebase.auth().signOut().then(() => {
+                    localStorage.clear();
+                    window.location.href = "index.html";
+                }).catch((error) => {
+                    alert("Logout failed. Please try again.");
+                });
+            });
+
+            dropdown.appendChild(profileLink);
+            dropdown.appendChild(logoutLink);
+        } else {
+            welcomeMessage.style.display = 'none';
+            
+            const loginLink = document.createElement("a");
+            loginLink.href = "login.html";
+            loginLink.textContent = "Login";
+
+            const signupLink = document.createElement("a");
+            signupLink.href = "signup.html";
+            signupLink.textContent = "Sign Up";
+
+            dropdown.appendChild(loginLink);
+            dropdown.appendChild(signupLink);
+        }
+    });
+} else {
+    dropdown.innerHTML = '';
+    const loginLink = document.createElement("a");
+    loginLink.href = "login.html";
+    loginLink.textContent = "Login";
+
+    const signupLink = document.createElement("a");
+    signupLink.href = "signup.html";
+    signupLink.textContent = "Sign Up";
+
+    dropdown.appendChild(loginLink);
+    dropdown.appendChild(signupLink);
+
+    if (welcomeMessage) {
+        welcomeMessage.style.display = 'none';
+    }
+}
+
 const chatMessages = document.getElementById('chat-messages');
 const userInput = document.getElementById('user-input');
 const sendButton = document.getElementById('send-button');

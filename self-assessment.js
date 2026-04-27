@@ -1,331 +1,372 @@
 document.addEventListener('DOMContentLoaded', function () {
-  firebase.auth().onAuthStateChanged(function (user) {
-      if (!user) {
-          window.location.href = 'login.html';
-      } else {
-          document.getElementById('welcomeMessage').textContent = `Welcome, ${user.displayName || 'User'}`;
-          initializePage(user.uid);
-      }
-  });
+    const dropdown = document.getElementById('dropdownMenu');
+    const welcomeMessage = document.getElementById('welcomeMessage');
 
-  const toggleSidebarBtn = document.getElementById('toggleSidebar');
-  const sidebar = document.querySelector('.sidebar');
-  const content = document.querySelector('.content');
-  const toggleIcon = document.getElementById('toggle-icon');
+    firebase.auth().onAuthStateChanged(function (user) {
+        dropdown.innerHTML = '';
 
-  if (toggleSidebarBtn) {
-      toggleSidebarBtn.addEventListener('click', function () {
-          sidebar.classList.toggle('collapsed');
-          content.classList.toggle('shifted');
-          if (sidebar.classList.contains('collapsed')) {
-              toggleIcon.src = 'Editables/expand.png';
-              toggleIcon.alt = 'Expand Sidebar';
-          } else {
-              toggleIcon.src = 'Editables/collapse.png';
-              toggleIcon.alt = 'Collapse Sidebar';
-          }
-      });
-  }
+        if (!user) {
+            welcomeMessage.style.display = 'none';
 
-  const userIcon = document.getElementById('userIcon');
-  const dropdownMenu = document.getElementById('dropdownMenu');
+            const loginLink = document.createElement('a');
+            loginLink.href = 'login.html';
+            loginLink.textContent = 'Login';
 
-  if (userIcon && dropdownMenu) {
-      userIcon.addEventListener('click', function (event) {
-          dropdownMenu.classList.toggle('show');
-          event.stopPropagation();
-      });
+            const signupLink = document.createElement('a');
+            signupLink.href = 'signup.html';
+            signupLink.textContent = 'Sign Up';
 
-      document.addEventListener('click', function (event) {
-          if (!userIcon.contains(event.target) && !dropdownMenu.contains(event.target)) {
-              dropdownMenu.classList.remove('show');
-          }
-      });
-  }
+            dropdown.appendChild(loginLink);
+            dropdown.appendChild(signupLink);
 
+            window.location.href = 'login.html';
+        } else {
+            welcomeMessage.textContent = `Welcome, ${user.displayName || 'User'}`;
+            welcomeMessage.style.display = 'block';
 
-  function initializePage(userId) {
-      const db = firebase.database();
+            const profileLink = document.createElement('a');
+            profileLink.href = 'profile.html';
+            profileLink.textContent = 'Profile';
 
-      const popularGames = {
-          'rubiks-cube': {
-              name: "3x3 Rubiks Cube",
-              genre: "Puzzle",
-              image: "Editables/cubecinematic.png"
-          },
-          'pong': {
-              name: "Pong game",
-              genre: "Classic Arcade",
-              image: "Editables/cinematicpong.png"
-          },
-          'flagguess': {
-              name: "Flag guessing game",
-              genre: "Trivia",
-              image: "Editables/cinematicflag.png"
-          },
-      };
+            const logoutLink = document.createElement('a');
+            logoutLink.href = '#';
+            logoutLink.textContent = 'Logout';
+            logoutLink.addEventListener('click', function (e) {
+                e.preventDefault();
+                firebase.auth().signOut().then(() => {
+                    localStorage.clear();
+                    window.location.href = 'login.html';
+                }).catch((error) => {
+                    alert('Logout failed. Please try again.');
+                });
+            });
 
-      let currentTrackedGamesData = {};
-      let currentGameSelectionsData = {};
+            dropdown.appendChild(profileLink);
+            dropdown.appendChild(logoutLink);
 
-      initializeChart();
+            initializePage(user.uid);
+        }
+    });
 
-      const assessmentForm = document.getElementById('assessmentForm');
-      const assessmentResultsDiv = document.getElementById('assessmentResults');
-      const retakeAssessmentBtn = document.getElementById('retakeAssessmentBtn');
+    const toggleSidebarBtn = document.getElementById('toggleSidebar');
+    const sidebar = document.querySelector('.sidebar');
+    const content = document.querySelector('.content');
+    const toggleIcon = document.getElementById('toggle-icon');
 
-      if (assessmentForm) assessmentForm.style.display = 'block';
-      if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'none';
+    if (toggleSidebarBtn) {
+        toggleSidebarBtn.addEventListener('click', function () {
+            sidebar.classList.toggle('collapsed');
+            content.classList.toggle('shifted');
+            if (sidebar.classList.contains('collapsed')) {
+                toggleIcon.src = 'Editables/expand.png';
+                toggleIcon.alt = 'Expand Sidebar';
+            } else {
+                toggleIcon.src = 'Editables/collapse.png';
+                toggleIcon.alt = 'Collapse Sidebar';
+            }
+        });
+    }
 
+    const userMenu = document.getElementById("userMenu");
+    const dropdownMenu = document.getElementById("dropdownMenu");
 
-      db.ref('users/' + userId + '/trackedGames').on('value', (snapshot) => {
-          currentTrackedGamesData = snapshot.val() || {};
-          updateTrackedGamesList(currentTrackedGamesData, popularGames, currentGameSelectionsData);
-          updateAddButtons(currentTrackedGamesData);
-      });
+    if (userMenu && dropdownMenu) {
+        userMenu.addEventListener("click", (e) => {
+            e.stopPropagation();
+            dropdownMenu.style.display =
+                dropdownMenu.style.display === "block" ? "none" : "block";
+        });
 
-      db.ref('gameSelections/' + userId).on('value', (snapshot) => {
-          currentGameSelectionsData = snapshot.val() || {};
-          updateChart(currentGameSelectionsData, popularGames);
-          updateTrackedGamesList(currentTrackedGamesData, popularGames, currentGameSelectionsData);
-      });
+        document.addEventListener("click", function (e) {
+            if (!userMenu.contains(e.target)) {
+                dropdownMenu.style.display = "none";
+            }
+        });
+    }
 
 
-      document.querySelectorAll('.add-game-btn').forEach(btn => {
-          btn.addEventListener('click', function (e) {
-              e.preventDefault();
-              const gameCard = this.closest('.game-card');
-              const gameId = gameCard.dataset.game;
+    function initializePage(userId) {
+        const db = firebase.database();
 
-              if (gameId && popularGames[gameId]) {
-                  const gameRef = db.ref('users/' + userId + '/trackedGames/' + gameId);
+        const popularGames = {
+            'rubiks-cube': {
+                name: "3x3 Rubiks Cube",
+                genre: "Puzzle",
+                image: "Editables/cubecinematic.png"
+            },
+            'pong': {
+                name: "Pong game",
+                genre: "Classic Arcade",
+                image: "Editables/cinematicpong.png"
+            },
+            'flagguess': {
+                name: "Flag guessing game",
+                genre: "Trivia",
+                image: "Editables/cinematicflag.png"
+            },
+        };
 
-                  gameRef.once('value').then((trackedSnapshot) => {
-                      if (!trackedSnapshot.exists()) {
-                          gameRef.set({
-                              name: popularGames[gameId].name,
-                              genre: popularGames[gameId].genre,
-                              image: popularGames[gameId].image,
-                              added: firebase.database.ServerValue.TIMESTAMP,
-                              timePlayed: 0
-                          }).catch((error) => {
-                          });
-                      }
-                  });
-              }
-          });
-      });
+        let currentTrackedGamesData = {};
+        let currentGameSelectionsData = {};
 
+        initializeChart();
 
-      document.getElementById('trackedGames').addEventListener('click', function (e) {
-          if (e.target.classList.contains('remove-game')) {
-              const gameId = e.target.dataset.game;
-              db.ref('users/' + userId + '/trackedGames/' + gameId).remove().catch((error) => {
-              });
-          }
-      });
+        const assessmentForm = document.getElementById('assessmentForm');
+        const assessmentResultsDiv = document.getElementById('assessmentResults');
+        const retakeAssessmentBtn = document.getElementById('retakeAssessmentBtn');
 
-      if (assessmentForm) {
-          assessmentForm.addEventListener('submit', function (e) {
-              e.preventDefault();
-              const formData = new FormData(assessmentForm);
-              let totalScore = 0;
-              let allAnswered = true;
-              const answers = {};
-
-              for (let i = 1; i <= 4; i++) {
-                  const answer = formData.get('q' + i);
-                  if (answer === null) {
-                      allAnswered = false;
-                      break;
-                  }
-                  answers['q' + i] = parseInt(answer, 10);
-                  totalScore += answers['q' + i];
-              }
-
-              if (!allAnswered) {
-                  alert("Please answer all questions before submitting.");
-                  return;
-              }
-
-              displayAssessmentResults(answers, totalScore);
-              if (assessmentForm) assessmentForm.style.display = 'none';
-              if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'block';
-          });
-      }
-
-      if (retakeAssessmentBtn) {
-          retakeAssessmentBtn.addEventListener('click', function() {
-              if (assessmentForm) assessmentForm.reset();
-              if (assessmentForm) assessmentForm.style.display = 'block';
-              if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'none';
-          });
-      }
+        if (assessmentForm) assessmentForm.style.display = 'block';
+        if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'none';
 
 
-      function displayAssessmentResults(answers, score) {
-          const resultsDiv = document.getElementById('assessmentResults');
-          if (!resultsDiv) {
-              return;
-          }
+        db.ref('users/' + userId + '/trackedGames').on('value', (snapshot) => {
+            currentTrackedGamesData = snapshot.val() || {};
+            updateTrackedGamesList(currentTrackedGamesData, popularGames, currentGameSelectionsData);
+            updateAddButtons(currentTrackedGamesData);
+        });
 
-          const resultQ1El = document.getElementById('resultQ1');
-          if (resultQ1El) {
-              resultQ1El.textContent = determineQuestionStatus(answers.q1);
-          }
-
-          const resultQ2El = document.getElementById('resultQ2');
-          if (resultQ2El) {
-              resultQ2El.textContent = determineQuestionStatus(answers.q2);
-          }
-
-          const resultQ3El = document.getElementById('resultQ3');
-          if (resultQ3El) {
-              resultQ3El.textContent = determineQuestionStatus(answers.q3);
-          }
-
-          const resultQ4El = document.getElementById('resultQ4');
-          if (resultQ4El) {
-              resultQ4El.textContent = determineQuestionStatus(answers.q4);
-          }
+        db.ref('gameSelections/' + userId).on('value', (snapshot) => {
+            currentGameSelectionsData = snapshot.val() || {};
+            updateChart(currentGameSelectionsData, popularGames);
+            updateTrackedGamesList(currentTrackedGamesData, popularGames, currentGameSelectionsData);
+        });
 
 
-          const addictionLevelEl = document.getElementById('addictionLevel');
-          if (addictionLevelEl) {
-              addictionLevelEl.textContent = calculateAddictionLevel(score);
-          }
-      }
+        document.querySelectorAll('.add-game-btn').forEach(btn => {
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                const gameCard = this.closest('.game-card');
+                const gameId = gameCard.dataset.game;
 
-      function determineQuestionStatus(answerValue) {
-          const threshold = 1;
-          return answerValue > threshold ? 'True' : 'False';
-      }
+                if (gameId && popularGames[gameId]) {
+                    const gameRef = db.ref('users/' + userId + '/trackedGames/' + gameId);
 
-      function calculateAddictionLevel(score) {
-          if (score <= 4) {
-              return "Low";
-          } else if (score <= 8) {
-              return "Moderate";
-          } else if (score <= 12) {
-              return "High";
-          } else {
-              return "Severe";
-          }
-      }
-  }
+                    gameRef.once('value').then((trackedSnapshot) => {
+                        if (!trackedSnapshot.exists()) {
+                            gameRef.set({
+                                name: popularGames[gameId].name,
+                                genre: popularGames[gameId].genre,
+                                image: popularGames[gameId].image,
+                                added: firebase.database.ServerValue.TIMESTAMP,
+                                timePlayed: 0
+                            }).catch((error) => {
+                            });
+                        }
+                    });
+                }
+            });
+        });
 
-  let gamesChart = null;
 
-  function initializeChart() {
-      const ctx = document.getElementById('gamesChart');
-      if (!ctx) return;
+        document.getElementById('trackedGames').addEventListener('click', function (e) {
+            if (e.target.classList.contains('remove-game')) {
+                const gameId = e.target.dataset.game;
+                db.ref('users/' + userId + '/trackedGames/' + gameId).remove().catch((error) => {
+                });
+            }
+        });
 
-      if (gamesChart) {
-          gamesChart.destroy();
-          gamesChart = null;
-      }
+        if (assessmentForm) {
+            assessmentForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(assessmentForm);
+                let totalScore = 0;
+                let allAnswered = true;
+                const answers = {};
 
-      const chartConfig = {
-          type: 'bar',
-          data: {
-              labels: [],
-              datasets: [{
-                  label: 'Number of Selections',
-                  data: [],
-                  backgroundColor: [
-                      'rgba(173, 132, 255, 0.7)',
-                      'rgba(141, 126, 255, 0.7)',
-                      'rgba(109, 120, 255, 0.7)',
-                      'rgba(77, 114, 255, 0.7)',
-                      'rgba(45, 108, 255, 0.7)',
-                  ],
-                  borderColor: [
-                      'rgba(173, 132, 255, 1)',
-                      'rgba(141, 126, 255, 1)',
-                      'rgba(109, 120, 255, 1)',
-                      'rgba(77, 114, 255, 1)',
-                      'rgba(45, 108, 255, 1)',
-                  ],
-                  borderWidth: 1
-              }]
-          },
-          options: {
-              responsive: true,
-              maintainAspectRatio: false,
-              plugins: {
-                  legend: {
-                      position: 'top',
-                  },
-                  title: {
-                      display: true,
-                      text: 'Game Selections Count'
-                  }
-              },
-              scales: {
-                  y: {
-                      beginAtZero: true,
-                      title: {
-                          display: true,
-                          text: 'Selections'
-                      },
-                      ticks: {
-                          precision: 0
-                      }
-                  },
-                  x: {
-                      title: {
-                          display: true,
-                          text: 'Game'
-                      }
-                  }
-              }
-          }
-      };
+                for (let i = 1; i <= 4; i++) {
+                    const answer = formData.get('q' + i);
+                    if (answer === null) {
+                        allAnswered = false;
+                        break;
+                    }
+                    answers['q' + i] = parseInt(answer, 10);
+                    totalScore += answers['q' + i];
+                }
 
-      gamesChart = new Chart(ctx, chartConfig);
-  }
+                if (!allAnswered) {
+                    alert("Please answer all questions before submitting.");
+                    return;
+                }
 
-  function updateChart(gameSelectionsData, popularGames) {
-      if (!gamesChart) return;
+                displayAssessmentResults(answers, totalScore);
+                if (assessmentForm) assessmentForm.style.display = 'none';
+                if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'block';
+            });
+        }
 
-      const gameIds = Object.keys(gameSelectionsData);
-      const gameNames = gameIds.map(id => {
-          return popularGames[id] ? popularGames[id].name : id;
-      });
-      const selectionCounts = gameIds.map(id => gameSelectionsData[id]);
+        if (retakeAssessmentBtn) {
+            retakeAssessmentBtn.addEventListener('click', function () {
+                if (assessmentForm) assessmentForm.reset();
+                if (assessmentForm) assessmentForm.style.display = 'block';
+                if (assessmentResultsDiv) assessmentResultsDiv.style.display = 'none';
+            });
+        }
 
-      gamesChart.data.labels = gameNames;
-      gamesChart.data.datasets[0].data = selectionCounts;
-      gamesChart.update();
 
-      const resultsDiv = document.getElementById('results');
-      if (resultsDiv && gameIds.length > 0) {
-          resultsDiv.style.display = 'block';
-      } else if (resultsDiv && gameIds.length === 0) {
-          resultsDiv.style.display = 'none';
-      }
-  }
+        function displayAssessmentResults(answers, score) {
+            const resultsDiv = document.getElementById('assessmentResults');
+            if (!resultsDiv) {
+                return;
+            }
 
-  function updateTrackedGamesList(trackedGames, popularGames, gameSelectionsData) {
-      const trackedList = document.getElementById('trackedGames');
-      trackedList.innerHTML = '';
+            const resultQ1El = document.getElementById('resultQ1');
+            if (resultQ1El) {
+                resultQ1El.textContent = determineQuestionStatus(answers.q1);
+            }
 
-      const gameIds = Object.keys(trackedGames);
+            const resultQ2El = document.getElementById('resultQ2');
+            if (resultQ2El) {
+                resultQ2El.textContent = determineQuestionStatus(answers.q2);
+            }
 
-      if (gameIds.length === 0) {
-          trackedList.innerHTML = '<p class="empty-message">No games being tracked yet</p>';
-          return;
-      }
+            const resultQ3El = document.getElementById('resultQ3');
+            if (resultQ3El) {
+                resultQ3El.textContent = determineQuestionStatus(answers.q3);
+            }
 
-      gameIds.forEach(gameId => {
-          const game = trackedGames[gameId];
-          const gameInfo = game || popularGames[gameId] || { name: 'Unknown Game', genre: 'Unknown', image: 'https://via.placeholder.com/60' };
+            const resultQ4El = document.getElementById('resultQ4');
+            if (resultQ4El) {
+                resultQ4El.textContent = determineQuestionStatus(answers.q4);
+            }
 
-          const selectionCount = gameSelectionsData && gameSelectionsData[gameId] ? gameSelectionsData[gameId] : 0;
 
-          const gameEl = document.createElement('div');
-          gameEl.className = 'tracked-game';
-          gameEl.innerHTML = `
+            const addictionLevelEl = document.getElementById('addictionLevel');
+            if (addictionLevelEl) {
+                addictionLevelEl.textContent = calculateAddictionLevel(score);
+            }
+        }
+
+        function determineQuestionStatus(answerValue) {
+            const threshold = 1;
+            return answerValue > threshold ? 'True' : 'False';
+        }
+
+        function calculateAddictionLevel(score) {
+            if (score <= 4) {
+                return "Low";
+            } else if (score <= 8) {
+                return "Moderate";
+            } else if (score <= 12) {
+                return "High";
+            } else {
+                return "Severe";
+            }
+        }
+    }
+
+    let gamesChart = null;
+
+    function initializeChart() {
+        const ctx = document.getElementById('gamesChart');
+        if (!ctx) return;
+
+        if (gamesChart) {
+            gamesChart.destroy();
+            gamesChart = null;
+        }
+
+        const chartConfig = {
+            type: 'bar',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Number of Selections',
+                    data: [],
+                    backgroundColor: [
+                        'rgba(173, 132, 255, 0.7)',
+                        'rgba(141, 126, 255, 0.7)',
+                        'rgba(109, 120, 255, 0.7)',
+                        'rgba(77, 114, 255, 0.7)',
+                        'rgba(45, 108, 255, 0.7)',
+                    ],
+                    borderColor: [
+                        'rgba(173, 132, 255, 1)',
+                        'rgba(141, 126, 255, 1)',
+                        'rgba(109, 120, 255, 1)',
+                        'rgba(77, 114, 255, 1)',
+                        'rgba(45, 108, 255, 1)',
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Game Selections Count'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        title: {
+                            display: true,
+                            text: 'Selections'
+                        },
+                        ticks: {
+                            precision: 0
+                        }
+                    },
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Game'
+                        }
+                    }
+                }
+            }
+        };
+
+        gamesChart = new Chart(ctx, chartConfig);
+    }
+
+    function updateChart(gameSelectionsData, popularGames) {
+        if (!gamesChart) return;
+
+        const gameIds = Object.keys(gameSelectionsData);
+        const gameNames = gameIds.map(id => {
+            return popularGames[id] ? popularGames[id].name : id;
+        });
+        const selectionCounts = gameIds.map(id => gameSelectionsData[id]);
+
+        gamesChart.data.labels = gameNames;
+        gamesChart.data.datasets[0].data = selectionCounts;
+        gamesChart.update();
+
+        const resultsDiv = document.getElementById('results');
+        if (resultsDiv && gameIds.length > 0) {
+            resultsDiv.style.display = 'block';
+        } else if (resultsDiv && gameIds.length === 0) {
+            resultsDiv.style.display = 'none';
+        }
+    }
+
+    function updateTrackedGamesList(trackedGames, popularGames, gameSelectionsData) {
+        const trackedList = document.getElementById('trackedGames');
+        trackedList.innerHTML = '';
+
+        const gameIds = Object.keys(trackedGames);
+
+        if (gameIds.length === 0) {
+            trackedList.innerHTML = '<p class="empty-message">No games being tracked yet</p>';
+            return;
+        }
+
+        gameIds.forEach(gameId => {
+            const game = trackedGames[gameId];
+            const gameInfo = game || popularGames[gameId] || { name: 'Unknown Game', genre: 'Unknown', image: 'https://via.placeholder.com/60' };
+
+            const selectionCount = gameSelectionsData && gameSelectionsData[gameId] ? gameSelectionsData[gameId] : 0;
+
+            const gameEl = document.createElement('div');
+            gameEl.className = 'tracked-game';
+            gameEl.innerHTML = `
               <img src="${gameInfo.image}" alt="${gameInfo.name}" class="tracked-game-image">
               <div class="tracked-game-info">
                   <h4>${gameInfo.name} <span class="selection-count">(${selectionCount})</span></h4>
@@ -333,24 +374,24 @@ document.addEventListener('DOMContentLoaded', function () {
               </div>
               <button class="remove-game" data-game="${gameId}">×</button>
       `;
-          trackedList.appendChild(gameEl);
-      });
-  }
+            trackedList.appendChild(gameEl);
+        });
+    }
 
-  function updateAddButtons(trackedGames) {
-      document.querySelectorAll('.add-game-btn').forEach(btn => {
-          const gameCard = btn.closest('.game-card');
-          const gameId = gameCard.dataset.game;
+    function updateAddButtons(trackedGames) {
+        document.querySelectorAll('.add-game-btn').forEach(btn => {
+            const gameCard = btn.closest('.game-card');
+            const gameId = gameCard.dataset.game;
 
-          if (trackedGames && trackedGames[gameId]) {
-              btn.textContent = "Tracking ✓";
-              btn.style.backgroundColor = "#4CAF50";
-              btn.disabled = true;
-          } else {
-              btn.textContent = "Track Game";
-              btn.style.backgroundColor = "#ad84ff";
-              btn.disabled = false;
-          }
-      });
-  }
+            if (trackedGames && trackedGames[gameId]) {
+                btn.textContent = "Tracking ✓";
+                btn.style.backgroundColor = "#4CAF50";
+                btn.disabled = true;
+            } else {
+                btn.textContent = "Track Game";
+                btn.style.backgroundColor = "#ad84ff";
+                btn.disabled = false;
+            }
+        });
+    }
 });
