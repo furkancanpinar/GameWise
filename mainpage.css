@@ -178,6 +178,10 @@ header {
   display: none;
 }
 
+.sidebar.collapsed .menu-header {
+  justify-content: center;
+}
+
 .sidebar.collapsed .nav-item span {
   display: none;
 }
