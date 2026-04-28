@@ -235,6 +235,7 @@ header {
 
 .toggle-btn {
   cursor: pointer;
+  padding: 10px 0;
 }
 
 .toggle-btn img {

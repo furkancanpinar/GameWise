@@ -229,6 +229,7 @@ header {
 
 .toggle-btn {
   cursor: pointer;
+  padding: 10px 0;
 }
 
 .toggle-btn img {
@@ -730,4 +731,146 @@ input:checked + .slider:before {
 /* Exclude PNG images from color changes */
 img[src$=".png"] {
   filter: none !important;
+}
+
+/* Password Change Modal */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1001;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+  background-color: white;
+  margin: 10% auto;
+  padding: 25px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 400px;
+  position: relative;
+}
+
+.close-modal {
+  position: absolute;
+  right: 15px;
+  top: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.close-modal:hover {
+  color: #000;
+}
+
+.form-group {
+  margin-bottom: 15px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  box-sizing: border-box;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #ad84ff;
+  box-shadow: 0 0 5px rgba(173, 132, 255, 0.3);
+}
+
+.modal-content h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.modal-content .settings-btn {
+  width: 100%;
+  padding: 12px;
+  background-color: #ad84ff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.modal-content .settings-btn:hover {
+  background-color: #8d7eff;
+}
+
+/* Dark theme modal */
+.dark-theme .modal-content {
+  background-color: #34495e;
+  color: #ecf0f1;
+}
+
+.dark-theme .form-group label {
+  color: #ecf0f1;
+}
+
+.dark-theme .form-group input {
+  background-color: #2c3e50;
+  border-color: #555;
+  color: #ecf0f1;
+}
+
+.dark-theme .modal-content h2 {
+  color: #ecf0f1;
+}
+
+/* Light theme modal */
+.light-theme .modal-content {
+  background-color: #ecf0f1;
+  color: #2c3e50;
+}
+
+.light-theme .form-group label {
+  color: #2c3e50;
+}
+
+.light-theme .form-group input {
+  background-color: #ffffff;
+  border-color: #ddd;
+  color: #2c3e50;
+}
+
+.light-theme .modal-content h2 {
+  color: #2c3e50;
+}
+
+/* Purple theme modal */
+.purple-theme .modal-content {
+  background-color: #8e44ad;
+  color: #ecf0f1;
+}
+
+.purple-theme .form-group label {
+  color: #ecf0f1;
+}
+
+.purple-theme .form-group input {
+  background-color: #9b59b6;
+  border-color: #7b3aa9;
+  color: #ecf0f1;
+}
+
+.purple-theme .modal-content h2 {
+  color: #ecf0f1;
 }

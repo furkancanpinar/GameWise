@@ -64,7 +64,26 @@ function setupEventListeners(user) {
     });
 
     document.getElementById('changePasswordBtn').addEventListener('click', function() {
-        alert('Password change functionality will be implemented with 2FA verification');
+        document.getElementById('passwordModal').style.display = 'block';
+    });
+
+    document.getElementById('closePasswordModal').addEventListener('click', function() {
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('passwordChangeForm').reset();
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        const modal = document.getElementById('passwordModal');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            document.getElementById('passwordChangeForm').reset();
+        }
+    });
+
+    document.getElementById('passwordChangeForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        changePassword(user);
     });
 
     document.getElementById('deleteAccountBtn').addEventListener('click', function() {
@@ -215,4 +234,46 @@ function resetSettings(userId) {
         .catch(error => {
             alert('Error resetting settings: ' + error.message);
         });
+}
+
+function changePassword(user) {
+    const currentPassword = document.getElementById('currentPassword').value;
+    const newPassword = document.getElementById('newPassword').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
+
+    if (newPassword !== confirmPassword) {
+        alert('New passwords do not match!');
+        return;
+    }
+
+    if (newPassword.length < 6) {
+        alert('New password must be at least 6 characters long!');
+        return;
+    }
+
+    // Re-authenticate user with current password
+    const credential = firebase.auth.EmailAuthProvider.credential(
+        user.email,
+        currentPassword
+    );
+
+    user.reauthenticateWithCredential(credential).then(() => {
+        // Update password
+        return user.updatePassword(newPassword);
+    }).then(() => {
+        alert('Password changed successfully!');
+        document.getElementById('passwordModal').style.display = 'none';
+        document.getElementById('passwordChangeForm').reset();
+    }).catch((error) => {
+        console.error('Error changing password:', error);
+        if (error.code === 'auth/wrong-password') {
+            alert('Current password is incorrect.');
+        } else if (error.code === 'auth/weak-password') {
+            alert('New password is too weak. Please choose a stronger password.');
+        } else if (error.code === 'auth/requires-recent-login') {
+            alert('Please log out and log back in before changing your password.');
+        } else {
+            alert('Error changing password: ' + error.message);
+        }
+    });
 }
