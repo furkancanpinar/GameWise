@@ -118,21 +118,15 @@ async function sendMessage() {
 }
 
 async function fetchAIResponse() {
-  const API_KEY = process.env.OPENAI_API_KEY || "YOUR_OPENAI_API_KEY";
-  const API_URL = "https://api.openai.com/v1/chat/completions";
-
-    if (API_KEY === "YOUR_OPENAI_API_KEY" || !API_KEY) {
-        throw new Error("API key not configured. Please set the OPENAI_API_KEY environment variable.");
-    }
+    const API_URL = 'http://localhost:3000/api/chat'; // Change to your deployed backend URL
 
     const response = await fetch(API_URL, {
-        method: "POST",
+        method: 'POST',
         headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${API_KEY}`
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            model: "gpt-3.5-turbo",
+            model: 'gpt-3.5-turbo',
             messages: conversationHistory,
             temperature: 0.7,
             max_tokens: 250
@@ -142,11 +136,11 @@ async function fetchAIResponse() {
     const data = await response.json();
 
     if (!response.ok) {
-        throw new Error(data.error?.message || `API request failed with status ${response.status}`);
+        throw new Error(data.error || `API request failed with status ${response.status}`);
     }
 
     if (!data.choices || data.choices.length === 0) {
-        throw new Error("No response choices available from AI.");
+        throw new Error('No response choices available from AI.');
     }
 
     return data.choices[0].message.content.trim();
