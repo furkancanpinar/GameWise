@@ -1,8 +1,10 @@
 document.addEventListener('DOMContentLoaded', function() {
+  let currentUser = null;
   const dropdown = document.getElementById('dropdownMenu');
   const welcomeMessage = document.getElementById('welcomeMessage');
 
   firebase.auth().onAuthStateChanged(function(user) {
+    currentUser = user;
     dropdown.innerHTML = '';
     
     if (user) {
@@ -51,7 +53,26 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   document.querySelector('.edit-avatar-btn').addEventListener('click', function() {
-    alert('Avatar editing functionality will be added soon!');
+    if (!currentUser) {
+      alert('Please sign in before changing your avatar.');
+      return;
+    }
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
+    
+    fileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        uploadAvatar(file, currentUser);
+      }
+    });
+    
+    document.body.appendChild(fileInput);
+    fileInput.click();
+    document.body.removeChild(fileInput);
   });
 
   document.querySelector('.view-all-btn').addEventListener('click', function() {
@@ -67,6 +88,10 @@ function updateProfileInfo(user) {
 
   if (user.photoURL) {
     document.getElementById('userAvatar').src = user.photoURL;
+    const headerUserIcon = document.getElementById('userIcon');
+    if (headerUserIcon) {
+      headerUserIcon.src = user.photoURL;
+    }
   }
 }
 
@@ -200,5 +225,56 @@ function loadUserData(userId) {
       }
     }
   }).catch(function(error) {
+  });
+}
+
+function uploadAvatar(file, user) {
+  // Validate file type
+  if (!file.type.startsWith('image/')) {
+    alert('Please select a valid image file.');
+    return;
+  }
+
+  // Validate file size (max 5MB)
+  if (file.size > 5 * 1024 * 1024) {
+    alert('Image file is too large. Please select an image smaller than 5MB.');
+    return;
+  }
+
+  const storageRef = firebase.storage().ref();
+  const avatarRef = storageRef.child(`avatars/${user.uid}/${file.name}`);
+
+  // Show loading state
+  const avatarImg = document.getElementById('userAvatar');
+  const headerUserIcon = document.getElementById('userIcon');
+  const originalSrc = avatarImg.src;
+  avatarImg.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjEyMCIgdmlld0JveD0iMCAwIDEyMCAxMjAiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+CjxyZWN0IHdpZHRoPSIxMjAiIGhlaWdodD0iMTIwIiBmaWxsPSIjRjNGNEY2Ii8+Cjx0ZXh0IHg9IjYwIiB5PSI2NSIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOUI5QkE0IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5VcGxvYWRpbmcuLi48L3RleHQ+Cjwvc3ZnPgo=';
+
+  avatarRef.put(file).then((snapshot) => {
+    return snapshot.ref.getDownloadURL();
+  }).then((downloadURL) => {
+    return user.updateProfile({
+      photoURL: downloadURL
+    }).then(() => {
+      return downloadURL;
+    });
+  }).then((downloadURL) => {
+    avatarImg.src = downloadURL;
+    if (headerUserIcon) {
+      headerUserIcon.src = downloadURL;
+    }
+    try {
+      localStorage.setItem('gw-avatar-url', downloadURL);
+    } catch (e) {
+      console.warn('Unable to save avatar URL to localStorage', e);
+    }
+    alert('Avatar updated successfully!');
+  }).catch((error) => {
+    console.error('Error uploading avatar:', error);
+    avatarImg.src = originalSrc;
+    if (headerUserIcon) {
+      headerUserIcon.src = originalSrc;
+    }
+    alert('Error uploading avatar. Please try again.');
   });
 }

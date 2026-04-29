@@ -10,13 +10,60 @@ const firebaseConfig = {
 };
 
 
+const avatarLocalKey = 'gw-avatar-url';
+const defaultAvatar = 'Editables/user.png';
+
 if (!firebase.apps.length) {
   firebase.initializeApp(firebaseConfig);
   console.log("Firebase app initialized.");
 } else {
-   console.log("Firebase app already initialized.");
+  console.log("Firebase app already initialized.");
 }
 
+function updateHeaderAvatar(user) {
+  const userIcon = document.getElementById('userIcon');
+  const profileAvatar = document.getElementById('userAvatar');
+  const avatarURL = user && user.photoURL ? user.photoURL : localStorage.getItem(avatarLocalKey) || defaultAvatar;
+
+  if (user && user.photoURL) {
+    localStorage.setItem(avatarLocalKey, user.photoURL);
+  } else if (!user) {
+    localStorage.removeItem(avatarLocalKey);
+  }
+
+  if (userIcon) {
+    userIcon.src = avatarURL;
+  }
+
+  if (profileAvatar) {
+    profileAvatar.src = avatarURL;
+  }
+}
+
+function loadCachedAvatar() {
+  const cachedAvatar = localStorage.getItem(avatarLocalKey);
+  const userIcon = document.getElementById('userIcon');
+  const profileAvatar = document.getElementById('userAvatar');
+
+  if (cachedAvatar) {
+    if (userIcon) {
+      userIcon.src = cachedAvatar;
+    }
+    if (profileAvatar) {
+      profileAvatar.src = cachedAvatar;
+    }
+  }
+}
+
+if (firebase.auth) {
+  firebase.auth().onAuthStateChanged(function(user) {
+    updateHeaderAvatar(user);
+  });
+}
+
+window.addEventListener('DOMContentLoaded', function() {
+  loadCachedAvatar();
+});
 
 function incrementGamezoneCounter() {
   if (firebase.database) {
@@ -34,7 +81,6 @@ function incrementGamezoneCounter() {
       console.warn('Firebase database not available for page visit tracking.');
   }
 }
-
 
 document.addEventListener("DOMContentLoaded", incrementGamezoneCounter);
 

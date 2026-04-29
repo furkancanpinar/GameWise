@@ -109,7 +109,8 @@ header {
 .user-icon {
   width: 35px;
   height: 35px;
-  filter: brightness(0) invert(1);
+  border-radius: 50%;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
@@ -715,18 +716,15 @@ input:checked + .slider:before {
 }
 
 .light-theme .nav-icon,
-.light-theme .user-icon,
 .light-theme .search-icon,
 .light-theme .logo-icon {
   filter: brightness(0) invert(0.7);
 }
 
 .dark-theme .nav-icon,
-.dark-theme .user-icon,
 .dark-theme .search-icon,
 .dark-theme .logo-icon,
 .purple-theme .nav-icon,
-.purple-theme .user-icon,
 .purple-theme .search-icon,
 .purple-theme .logo-icon {
   filter: brightness(0) invert(1);

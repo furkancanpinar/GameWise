@@ -113,7 +113,8 @@ header {
 .user-icon {
   width: 35px;
   height: 35px;
-  filter: brightness(0) invert(1);
+  border-radius: 50%;
+  object-fit: cover;
   transition: transform 0.3s ease;
 }
 
