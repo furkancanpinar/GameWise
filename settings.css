@@ -876,3 +876,22 @@ img[src$=".png"] {
 .purple-theme .modal-content h2 {
   color: #ecf0f1;
 }
+
+/* Animation controls */
+.no-animations * {
+  transition: none !important;
+  animation: none !important;
+}
+
+/* Font size controls */
+.font-small {
+  font-size: 14px;
+}
+
+.font-medium {
+  font-size: 16px;
+}
+
+.font-large {
+  font-size: 18px;
+}

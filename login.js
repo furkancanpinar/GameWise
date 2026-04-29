@@ -28,6 +28,19 @@ const firebaseConfig = {
       const userCredential = await auth.signInWithEmailAndPassword(email, password);
       const user = userCredential.user;
   
+      // Check if email is verified - allow login but show warning
+      if (!user.emailVerified) {
+        alert('Warning: Your email is not verified. Some features may be limited. Please verify your email from the settings page.');
+        // Show resend verification option
+        document.getElementById('resendVerification').style.display = 'inline-block';
+        document.getElementById('resendVerification').onclick = () => resendVerificationEmail(email, password);
+        // Store verification reminder
+        localStorage.setItem('needsEmailVerification', 'true');
+      } else {
+        // Clear any verification reminders
+        localStorage.removeItem('needsEmailVerification');
+      }
+
       // Store user data
       localStorage.setItem('isLoggedIn', 'true');
       localStorage.setItem('userEmail', user.email);
@@ -69,3 +82,24 @@ const firebaseConfig = {
       setTimeout(() => errorElement.remove(), 5000);
     }
   });
+
+// Function to resend verification email
+async function resendVerificationEmail(email, password) {
+  try {
+    // Sign in temporarily to get user object
+    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+    const user = userCredential.user;
+
+    // Send verification email
+    await user.sendEmailVerification();
+    
+    // Sign out again
+    await auth.signOut();
+    
+    alert('Verification email sent! Please check your email and click the verification link.');
+    document.getElementById('resendVerification').style.display = 'none';
+  } catch (error) {
+    alert('Error sending verification email. Please try logging in again.');
+    console.error('Error resending verification:', error);
+  }
+}

@@ -99,6 +99,43 @@
     </div>
   </div>
 
+  <!-- Email Verification Modal -->
+  <div id="emailVerificationModal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Verify Your Email</h2>
+        <span class="close-modal" id="closeVerificationModal">&times;</span>
+      </div>
+      <div class="modal-body">
+        <p class="verification-message">
+          We've sent a 6-digit verification code to <strong id="verificationEmail"></strong>
+        </p>
+        <p class="verification-instructions">
+          Please check your email and enter the code below to complete your account creation.
+        </p>
+        <div class="code-input-container">
+          <input type="text" id="verificationCode" placeholder="Enter 6-digit code" maxlength="6" class="code-input" inputmode="numeric" pattern="[0-9]*">
+          <div class="code-display" id="codeDisplay">
+            <span class="code-digit" data-position="0"></span>
+            <span class="code-digit" data-position="1"></span>
+            <span class="code-digit" data-position="2"></span>
+            <span class="code-digit" data-position="3"></span>
+            <span class="code-digit" data-position="4"></span>
+            <span class="code-digit" data-position="5"></span>
+          </div>
+          <div class="code-hint">Click here to enter your code</div>
+        </div>
+        <div class="verification-actions">
+          <button class="verify-button" id="verifyCodeBtn">Verify Code</button>
+          <button class="resend-button" id="resendCodeBtn">Resend Code</button>
+        </div>
+        <p class="verification-note">
+          Didn't receive the code? Check your spam folder or click "Resend Code".
+        </p>
+      </div>
+    </div>
+  </div>
+
   <script src="MainPage.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>

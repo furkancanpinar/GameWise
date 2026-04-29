@@ -5,6 +5,17 @@ document.addEventListener("DOMContentLoaded", function () {
         applySettings({ theme: savedTheme });
     }
 
+    // Apply saved font size and animations
+    const savedFontSize = localStorage.getItem('gamewise-font-size');
+    if (savedFontSize) {
+        applySettings({ fontSize: savedFontSize });
+    }
+
+    const savedAnimations = localStorage.getItem('gamewise-animations');
+    if (savedAnimations !== null) {
+        applySettings({ animations: savedAnimations === 'true' });
+    }
+
     firebase.auth().onAuthStateChanged(function(user) {
         if (!user) return;
 
@@ -42,9 +53,13 @@ function applySettings(settings) {
 
     // FONT SIZE
     if (settings.fontSize) {
-        document.documentElement.style.fontSize =
-            settings.fontSize === 'small' ? '14px' :
-            settings.fontSize === 'large' ? '18px' : '16px';
+        // Remove existing font size classes
+        document.body.classList.remove('font-small', 'font-medium', 'font-large');
+
+        // Add the new font size class
+        if (settings.fontSize !== 'medium') {
+            document.body.classList.add('font-' + settings.fontSize);
+        }
     }
 
     // ANIMATIONS
