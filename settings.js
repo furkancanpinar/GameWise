@@ -365,10 +365,8 @@ function changePassword(user) {
 }
 
 function changeFontSize(size) {
-    // Remove existing font size classes
     document.body.classList.remove('font-small', 'font-medium', 'font-large');
 
-    // Add the new font size class
     if (size !== 'medium') {
         document.body.classList.add('font-' + size);
     }
@@ -386,53 +384,27 @@ function toggleAnimations(enabled) {
 }
 
 function changeLanguage(language) {
-    // For now, just save the preference
-    // In a real app, this would load language files and update UI text
     localStorage.setItem('gamewise-language', language);
-    alert(`Language changed to ${language}. Note: Full language support will be implemented in future updates.`);
 }
 
 function changeDifficulty(difficulty) {
-    // Save difficulty preference
     localStorage.setItem('gamewise-difficulty', difficulty);
-    // This would affect game behavior in the game pages
-    alert(`Difficulty set to ${difficulty}. This will affect future games.`);
 }
 
 function toggleAutoSave(enabled) {
     localStorage.setItem('gamewise-autosave', enabled);
-    if (enabled) {
-        alert('Auto-save enabled. Game progress will be saved automatically.');
-    } else {
-        alert('Auto-save disabled. Remember to save your progress manually.');
-    }
 }
 
 function toggleEmailNotifications(enabled) {
     localStorage.setItem('gamewise-email-notifications', enabled);
-    if (enabled) {
-        alert('Email notifications enabled.');
-    } else {
-        alert('Email notifications disabled.');
-    }
 }
 
 function togglePushNotifications(enabled) {
     localStorage.setItem('gamewise-push-notifications', enabled);
-    if (enabled) {
-        alert('Push notifications enabled.');
-    } else {
-        alert('Push notifications disabled.');
-    }
 }
 
 function toggleSoundAlerts(enabled) {
     localStorage.setItem('gamewise-sound-alerts', enabled);
-    if (enabled) {
-        alert('Sound alerts enabled.');
-    } else {
-        alert('Sound alerts disabled.');
-    }
 }
 
 function toggleTwoFactor(enabled, user) {
@@ -460,8 +432,6 @@ function setupTwoFactor(user) {
     localStorage.setItem('2fa-setup-code', verificationCode);
     localStorage.setItem('2fa-setup-expiry', codeExpiry.toString());
 
-    // In a real implementation, you would send this via email service
-    // For demo purposes, we'll show it in an alert
     const userCode = prompt(`2FA Setup Code: ${verificationCode}\n\nEnter this code to complete 2FA setup:`);
 
     if (userCode === verificationCode) {
@@ -513,13 +483,11 @@ function disableTwoFactor(user) {
         );
 
         user.reauthenticateWithCredential(credential).then(() => {
-            // Disable 2FA
             const db = firebase.database();
             db.ref('users/' + user.uid + '/settings').update({
                 twoFactor: false
             }).then(() => {
                 localStorage.setItem('gamewise-2fa', 'false');
-                alert('2FA has been disabled.');
             }).catch(error => {
                 console.error('Error disabling 2FA:', error);
                 alert('Error disabling 2FA. Please try again.');
@@ -530,13 +498,11 @@ function disableTwoFactor(user) {
             document.getElementById('twoFactorToggle').checked = true;
         });
     } else {
-        // If not previously enabled, just update the database
         const db = firebase.database();
         db.ref('users/' + user.uid + '/settings').update({
             twoFactor: false
         }).then(() => {
             localStorage.setItem('gamewise-2fa', 'false');
-            alert('2FA has been disabled.');
         }).catch(error => {
             alert('Error disabling 2FA. Please try again.');
             document.getElementById('twoFactorToggle').checked = true;
@@ -567,7 +533,6 @@ window.requireTwoFactorVerification = function(callback, operationName = 'this o
     localStorage.setItem('2fa-verification-code', verificationCode);
     localStorage.setItem('2fa-verification-expiry', codeExpiry.toString());
 
-    // In a real app, send via email. For demo, show in prompt
     const userCode = prompt(`Verification Code: ${verificationCode}\n\nEnter this code to proceed with ${operationName}:`);
 
     if (userCode === verificationCode) {
@@ -609,19 +574,11 @@ function updateEmailStatus(user) {
         emailStatus.textContent = 'Email verified ✓';
         emailStatus.style.color = '#4CAF50';
         verifyEmailBtn.style.display = 'none';
-        // Clear verification reminder
         localStorage.removeItem('needsEmailVerification');
     } else {
         emailStatus.textContent = 'Email not verified - Click to verify';
         emailStatus.style.color = '#f44336';
         verifyEmailBtn.style.display = 'inline-block';
-
-        // Show warning if user was reminded to verify
-        if (localStorage.getItem('needsEmailVerification') === 'true') {
-            setTimeout(() => {
-                alert('Please verify your email address to access all features and enable 2FA.');
-            }, 1000);
-        }
     }
 }
 
@@ -635,13 +592,10 @@ function deleteAccount(user) {
         }
 
         if (confirm('Are you absolutely sure? All your data will be permanently deleted.')) {
-            // Delete user data from database
             const db = firebase.database();
             const userId = user.uid;
 
-            // Delete user data
             db.ref('users/' + userId).remove().then(() => {
-                // Delete user account
                 return user.delete();
             }).then(() => {
                 alert('Account deleted successfully.');
